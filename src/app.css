@@ -1,0 +1,132 @@
+body{
+    background-color: #F5F4F8;
+}
+
+
+.divBgColor{
+    background-color: #754FFE;
+    /* width: 100%; */
+}
+.my1Row{
+    width: 80%;
+    margin: 0 auto;
+    color: white;
+    padding-top: 4%;
+}
+.my1Row h1{
+    font-size: 2.5vw;
+    font-weight: 700;
+}
+.my1Row p{
+    font-size: 1.3vw;
+    color: #BAA7FE;
+    width: 90%;
+}
+.browseBtn{
+    background-color: #19CB98;
+    border: none;
+    color: white;
+    padding: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+    font-size: 1vw;
+    font-weight: 700;
+    /* margin-right: 1%; */
+}
+.browseBtn:hover{
+    background-color: #1bb98c;
+    transition: 0.2s;
+}
+.instructorBtn{
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+    font-size: 1vw;
+    font-weight: 700;
+    margin-left: 2%;
+}
+
+
+.manImg img{
+    width: 100%;
+    height: 100%;
+}
+.manImg{
+    width: 100%;
+}
+
+.smallImg img{
+    width: 100%;
+    height: 100%;
+}
+.smallImg{
+    margin-left: 1%;
+}
+
+
+/* Info */
+.infoContainer{
+    padding: 2%;
+}
+.info{
+    margin: 0 auto;
+    background-color: white;
+}
+.infoRow{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.span{
+    padding: 30%;
+    padding-top: -100%;
+    border-radius: 50%;
+    background-color: #FFEEDA;
+    color: #DE9E35;
+    margin-top: 30%;
+}
+.span svg{
+    margin: 0 auto;
+    color: #DE9E35;
+}
+
+.displayBlock1{
+    width: 20%;
+    display: inline-block;
+    text-align: left;
+    font-weight: 900;
+}
+
+.displayBlock2{
+    width: 80%;
+    display: inline-block;
+    text-align: left;
+    margin-left: -1vw;
+    margin-top: -1vw;
+}
+
+.spanText{
+    text-align: center;
+}
+.spanTextBold{
+    font-weight: 600;
+}
+
+
+
+
+/* Cards */
+
+.cardContainer{
+    margin: 5%;
+}
+
+.cardRow{
+    width: 90%;
+    margin: 0 auto;
+}
