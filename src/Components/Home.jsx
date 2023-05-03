@@ -24,8 +24,9 @@ export default function Home() {
 
 
 
-    function search() {
-        axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
+    function search(event) {
+        if(event == 'enter'){
+            axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
             .then(res => {
                 if (res.data) {
                     setData(res.data)
@@ -33,6 +34,16 @@ export default function Home() {
                 }
             })
             .catch(err => console.warn(err))
+        }else{
+            axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
+            .then(res => {
+                if (res.data) {
+                    setData(res.data)
+                    setLoading(true)
+                }
+            })
+            .catch(err => console.warn(err))
+        }
     }
 
 
@@ -50,20 +61,44 @@ export default function Home() {
         }
     }
 
-    console.log(bodyColor);
+
+    const [fontFamily, setFontFamily] = useState('Sans Serif')
+
+
+    function changeFontFamily() {
+        if (fontFamily == 'Sans Serif') {
+            document.body.style.fontFamily = 'Sans Serif'
+        } else if (fontFamily == 'Serif') {
+            document.body.style.fontFamily = 'Serif'
+        } else {
+            document.body.style.fontFamily = 'Mono'
+        }
+    }
+
+
+
 
     return (
         <div className="container p-5" >
-            <div class="form-switch mb-3">
-                <label class="form-check-label" for="flexSwitchCheckChecked" style={{marginRight:'5%'}}>{ bodyColor == 'white' ? "Light" : "Dark" }</label>
-                <input onClick={() => backgroundColor()} class="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' } } type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+            <div className="" style={{ textAlign: "end" }}>
+                <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={{ border: "none" }} >
+                    <option value="Sans Serif">Sans Serif</option>
+                    <option value="Serif">Serif</option>
+                    <option value="Mono">Mono</option>
+                </select> |
+                <div class="form-switch mb-3" style={{ width: '10%', display: 'inline-block' }}>
+                    <input onClick={() => backgroundColor()} class="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' }} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                </div>
+
             </div>
-            <input type="text" className="form-control w-50" style={{ display: 'inline-block' }} value={word} onChange={(e) => setWord(e.target.value)} />
-            <button onClick={search} style={{ position: "relative", right: "5%", border: 'none' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-            </button>
+            <div className="">
+                <input type="text" className="form-control" style={{ display: 'inline-block', width: '80%', border: 'none', borderBottom: '1px solid' }} value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={search} />
+                <button onClick={search} style={{ position: "relative", right: "10%", border: 'none', backgroundColor: "white", backgroundColor: 'unset' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </div>
             {
                 loading == false ?
                     < MagnifyingGlass
@@ -78,14 +113,28 @@ export default function Home() {
                     />
                     :
 
-                    <div className="row">
+                    <div className="row mt-5">
                         <div className="col-md-12">
                             {
                                 data && data.map((post, index) => {
                                     return (
                                         <div key={index}>
-                                            <h1>{post.word}</h1>
-                                            <p>{post.phonetic}</p>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <h1>{post.word}</h1>
+                                                    <p style={{ color: '#A445ED' }}>{post.phonetic}</p>
+                                                </div>
+                                                <div className="col pt-2">
+                                                    <button style={{border:'none', backgroundColor:'unset', color:'#A445ED'}} onClick={() => {
+                                                        new Audio(post.phonetics[0].audio).play()
+                                                    }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                            <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
                                             <hr />
                                             <h2>{post.meanings[0].partOfSpeech}</h2>
                                             <p>Meaning</p>
@@ -109,7 +158,7 @@ export default function Home() {
                                                                         )
                                                                     })}</ul>
 
-                                                                    <p><span style={{ color: "gray" }}>Synonyms</span> {post.synonyms}</p>
+                                                                    <p style={{ color: '#A445ED' }}><span style={{ color: "gray" }}>Synonyms</span> {post.synonyms}</p>
 
                                                                 </>
                                                             )
@@ -143,20 +192,11 @@ export default function Home() {
                                                                 )
                                                             })}
                                                         </>
-                                                        // <>
-                                                        //     <h2>{post.meanings[1].partOfSpeech}</h2>
-                                                        //     <p>Meaning</p>
-                                                        //     <ul>
-                                                        //         <li>{post.meanings[1].definitions[0].definition}</li>
-                                                        //     </ul>
-                                                        //     <p>{post.meanings[1].definitions[0].example}</p>
-
-                                                        // </>
 
                                                     )
                                                 })
                                             }
-                                            <p><span style={{ color: "gray" }}>Source</span> <a href={post.sourceUrls}>{post.sourceUrls}</a></p>
+                                            <span style={{ fontSize: '80%' }}>Source <a href={post.sourceUrls}>{post.sourceUrls}</a> </span>
                                         </div>
                                     )
                                 })
