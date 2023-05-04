@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { MagnifyingGlass } from "react-loader-spinner";
 
+import img from '../img/book.png'
+import moon from '../img/moon.png'
+
 export default function Home() {
 
     const [loading, setLoading] = useState(false)
@@ -24,9 +27,8 @@ export default function Home() {
 
 
 
-    function search(event) {
-        if(event == 'enter'){
-            axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
+    function search() {
+        axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
             .then(res => {
                 if (res.data) {
                     setData(res.data)
@@ -34,15 +36,19 @@ export default function Home() {
                 }
             })
             .catch(err => console.warn(err))
-        }else{
+
+    }
+
+    function searchEnter(event) {
+        if (event.code.toLowerCase() === 'enter') {
             axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
-            .then(res => {
-                if (res.data) {
-                    setData(res.data)
-                    setLoading(true)
-                }
-            })
-            .catch(err => console.warn(err))
+                .then(res => {
+                    if (res.data) {
+                        setData(res.data)
+                        setLoading(true)
+                    }
+                })
+                .catch(err => console.warn(err))
         }
     }
 
@@ -62,7 +68,7 @@ export default function Home() {
     }
 
 
-    const [fontFamily, setFontFamily] = useState('Sans Serif')
+    const [fontFamily, setFontFamily] = useState('')
 
 
     function changeFontFamily() {
@@ -75,30 +81,34 @@ export default function Home() {
         }
     }
 
-
+    console.log(data);
 
 
     return (
         <div className="container p-5" >
-            <div className="" style={{ textAlign: "end" }}>
-                <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={{ border: "none" }} >
-                    <option value="Sans Serif">Sans Serif</option>
-                    <option value="Serif">Serif</option>
-                    <option value="Mono">Mono</option>
-                </select> |
-                <div class="form-switch mb-3" style={{ width: '10%', display: 'inline-block' }}>
-                    <input onClick={() => backgroundColor()} class="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' }} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+            <div className="navbar mb-5 ">
+                <img src={img} className='img-fluid' alt="" />
+                <div style={{ textAlign: "end" }}>
+                    <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={{ border: "none" }} >
+                        <option value="Sans Serif">Sans Serif</option>
+                        <option value="Serif">Serif</option>
+                        <option value="Mono">Mono</option>
+                    </select> |
+                    <div className="form-switch mb-3 " style={{ display: 'inline-block' }}>
+                        <input onClick={() => backgroundColor()} className="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' }} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                    </div>
+                    <img src={moon}  style={{ width: '12%', marginTop: '-4%', color:'red' }} />
                 </div>
-
             </div>
-            <div className="">
-                <input type="text" className="form-control" style={{ display: 'inline-block', width: '80%', border: 'none', borderBottom: '1px solid' }} value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={search} />
+
+            <>
+                <input type="text" className="form-control searchInput" style={{ display: 'inline-block', width: '80%', border: 'none', borderBottom: '1px solid' }} value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={searchEnter} />
                 <button onClick={search} style={{ position: "relative", right: "10%", border: 'none', backgroundColor: "white", backgroundColor: 'unset' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                 </button>
-            </div>
+            </>
             {
                 loading == false ?
                     < MagnifyingGlass
@@ -125,19 +135,35 @@ export default function Home() {
                                                     <p style={{ color: '#A445ED' }}>{post.phonetic}</p>
                                                 </div>
                                                 <div className="col pt-2">
-                                                    <button style={{border:'none', backgroundColor:'unset', color:'#A445ED'}} onClick={() => {
-                                                        new Audio(post.phonetics[0].audio).play()
-                                                    }}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
-                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                                            <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
-                                                        </svg>
-                                                    </button>
+                                                    {
+                                                        post.phonetics.length > 0 ?
+
+                                                            <>
+                                                                {
+                                                                    post.phonetics[0].audio.length > 0 ?
+                                                                        <button style={{ border: 'none', backgroundColor: 'unset', color: '#A445ED' }} onClick={() => {
+                                                                            new Audio(post.phonetics[0].audio).play()
+                                                                        }}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-play-circle" viewBox="0 0 16 16">
+                                                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                                                <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                        :
+                                                                        null
+                                                                }
+                                                            </>
+                                                            :
+                                                            null
+                                                    }
                                                 </div>
                                             </div>
-                                            <hr />
-                                            <h2>{post.meanings[0].partOfSpeech}</h2>
-                                            <p>Meaning</p>
+                                            <h2>{post.meanings[0].partOfSpeech}
+                                                <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
+                                                    <rect width="1200" height="1" fill="#E9E9E9" />
+                                                </svg>
+                                            </h2>
+                                            <p style={{ color: 'gray' }}>Meaning</p>
                                             {
                                                 post.meanings.length == 1 ?
                                                     <ul>
@@ -166,13 +192,16 @@ export default function Home() {
                                                     </>
                                             }
 
-                                            <hr />
                                             {post.meanings.length > 1 ?
-                                                <h2>{post.meanings[1].partOfSpeech}</h2>
+                                                <h2>{post.meanings[1].partOfSpeech}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
+                                                        <rect width="1200" height="1" fill="#E9E9E9" />
+                                                    </svg>
+                                                </h2>
                                                 :
                                                 null
                                             }
-                                            <p>Meaning</p>
+                                            <p style={{ color: 'gray' }}>Meaning</p>
 
                                             <ul>
                                                 {/* <li>{post.meanings[1].definitions[0].definition}</li> */}
@@ -184,9 +213,6 @@ export default function Home() {
                                                             {post.definitions.map((post, ind) => {
                                                                 return (
                                                                     <>
-                                                                        {/* <ul>
-                                                                    <li>{post.definition}</li>
-                                                                </ul> */}
                                                                         <p>{post.example}</p>
                                                                     </>
                                                                 )
