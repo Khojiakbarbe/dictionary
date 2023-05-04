@@ -97,18 +97,18 @@ export default function Home() {
                     <div className="form-switch mb-3 " style={{ display: 'inline-block' }}>
                         <input onClick={() => backgroundColor()} className="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' }} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
                     </div>
-                    <img src={moon}  style={{ width: '12%', marginTop: '-4%', color:'red' }} />
+                    <img src={moon} style={{ width: '12%', marginTop: '-4%', color: 'red' }} />
                 </div>
             </div>
 
-            <>
-                <input type="text" className="form-control searchInput" style={{ display: 'inline-block', width: '80%', border: 'none', borderBottom: '1px solid' }} value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={searchEnter} />
-                <button onClick={search} style={{ position: "relative", right: "10%", border: 'none', backgroundColor: "white", backgroundColor: 'unset' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+            <div className="search">
+                <input type="text" style={bodyColor == 'white' ? {backgroundColor:'white'} : {backgroundColor:'#1F1F1F', color:'white'}} className="form-control" value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={searchEnter} />
+                <button onClick={search} >
+                    <svg xmlns="http://www.w3.org/2000/svg" style={bodyColor == 'white' ? {color:'white'} : {color:'black'}} width="16" height="16" fillRule="currentColor" className="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                 </button>
-            </>
+            </div>
             {
                 loading == false ?
                     < MagnifyingGlass
