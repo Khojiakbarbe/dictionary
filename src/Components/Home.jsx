@@ -81,18 +81,18 @@ export default function Home() {
         }
     }
 
-    console.log(data);
+    // console.log(data);
 
 
     return (
-        <div className="container p-5" >
+        <div className="container p-5" id={fontFamily} >
             <div className="navbar mb-5 ">
                 <img src={img} className='img-fluid' alt="" />
                 <div style={{ textAlign: "end" }}>
-                    <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={bodyColor == 'white' ? { border: 'none' } : { color: "white", border: 'none', backgroundColor: 'black' }} >
-                        <option value="Sans Serif">Sans Serif</option>
-                        <option value="Serif">Serif</option>
-                        <option value="Mono">Mono</option>
+                    <select onChange={(e) => setFontFamily(e.target.value)}  style={bodyColor == 'white' ? { border: 'none' } : { color: "white", border: 'none', backgroundColor: 'black' }} >
+                        <option value="sansSerif">Sans Serif</option>
+                        <option value="serif">Serif</option>
+                        <option value="mono">Mono</option>
                     </select> |
                     <div className="form-switch mb-3 " style={{ display: 'inline-block' }}>
                         <input onClick={() => backgroundColor()} className="form-check-input" style={bodyColor == 'dark' ? { backgroundColor: '#A445ED' } : { backgroundColor: '#757575' }} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
@@ -159,11 +159,11 @@ export default function Home() {
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div className="col-2">
+                                                <div className="col-1">
                                                     <h2>{post.meanings[0].partOfSpeech}</h2>
                                                 </div>
-                                                <div className="col">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
+                                                <div className="col pt-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "100%"  }} height="1" fill="none">
                                                         <rect width="1200" height="1" fill="#E9E9E9" />
                                                     </svg>
                                                 </div>
@@ -172,24 +172,29 @@ export default function Home() {
                                             {
                                                 post.meanings.length == 1 ?
                                                     <ul>
-                                                        {post.meanings[0].definitions.map(post => {
+                                                        {post.meanings[0].definitions.map((post, ind) => {
                                                             return (
-                                                                <li>{post.definition}</li>
+                                                                <li key={ind}>{post.definition}</li>
                                                             )
                                                         })}
                                                     </ul>
                                                     :
                                                     <>
-                                                        {post.meanings.map(post => {
+                                                        {post.meanings.map((post, ind) => {
                                                             return (
                                                                 <>
-                                                                    <ul>{post.definitions.map(post => {
+                                                                    <ul key={ind}>{post.definitions.map(post => {
                                                                         return (
                                                                             <li>{post.definition}</li>
                                                                         )
                                                                     })}</ul>
 
-                                                                    <p style={{ color: '#A445ED' }}><span style={{ color: "gray" }}>Synonyms</span> {post.synonyms}</p>
+                                                                    {
+                                                                        post.synonyms.length > 0 ?
+                                                                            <p style={{ color: '#A445ED' }}><span style={{ color: "gray" }}>Synonyms</span> {post.synonyms}</p>
+                                                                            :
+                                                                            null
+                                                                    }
 
                                                                 </>
                                                             )
@@ -213,9 +218,9 @@ export default function Home() {
 
 
                                                     <ul>
-                                                        {post.meanings[1].definitions.map(post => {
+                                                        {post.meanings[1].definitions.map((post, ind) => {
                                                             return (
-                                                                <li>
+                                                                <li key={ind}>
                                                                     {post.definition}
                                                                 </li>
                                                             )
@@ -225,17 +230,15 @@ export default function Home() {
                                                     null
                                             }
                                             {
-                                                post.meanings.map((post) => {
+                                                post.meanings.map((post, ind) => {
                                                     return (
-                                                        <>
+                                                        <div key={ind}>
                                                             {post.definitions.map((post, ind) => {
                                                                 return (
-                                                                    <>
-                                                                        <p>{post.example}</p>
-                                                                    </>
+                                                                    <p key={ind}>{post.example}</p>
                                                                 )
                                                             })}
-                                                        </>
+                                                        </div>
 
                                                     )
                                                 })
