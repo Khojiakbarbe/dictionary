@@ -1,10 +1,11 @@
-.search input{
+.search input {
     display: inline-block;
     width: 80%;
     border: none;
     border-bottom: 1px solid;
 }
-.search button{
+
+.search button {
     position: relative;
     right: 10%;
     border: none;
@@ -28,6 +29,18 @@
     li {
         font-size: 70%;
     }
+
+    .myNavbar img{
+        width: 12%;
+    }
+    .myNavbar div select {
+        margin-top: 30%;
+        width: 50%;
+        font-size: 50%;
+    }
+    .myNavbar div div input{
+        width: 5%;
+    }
 }
 
 @media only screen and (max-width: 350px) {
@@ -49,7 +62,8 @@
 }
 
 
-#sansSerif{
+/* For change font Family */
+#sansSerif {
     font-family: sans-serif;
 }
 
@@ -57,6 +71,6 @@
     font-family: serif;
 }
 
-#mono{
+#mono {
     font-family: monospace;
 }

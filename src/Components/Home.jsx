@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
-import { MagnifyingGlass } from "react-loader-spinner";
+import { Vortex } from "react-loader-spinner";
 
 import img from '../img/book.png'
 import moon from '../img/moon.png'
@@ -71,25 +71,15 @@ export default function Home() {
     const [fontFamily, setFontFamily] = useState('')
 
 
-    function changeFontFamily() {
-        if (fontFamily == 'Sans Serif') {
-            document.body.style.fontFamily = 'Sans Serif'
-        } else if (fontFamily == 'Serif') {
-            document.body.style.fontFamily = 'Serif'
-        } else {
-            document.body.style.fontFamily = 'Mono'
-        }
-    }
-
     // console.log(data);
 
 
     return (
         <div className="container p-5" id={fontFamily} >
-            <div className="navbar mb-5 ">
+            <div className="navbar mb-5 myNavbar">
                 <img src={img} className='img-fluid' alt="" />
                 <div style={{ textAlign: "end" }}>
-                    <select onChange={(e) => setFontFamily(e.target.value)}  style={bodyColor == 'white' ? { border: 'none' } : { color: "white", border: 'none', backgroundColor: 'black' }} >
+                    <select onChange={(e) => setFontFamily(e.target.value)} style={bodyColor == 'white' ? { border: 'none' } : { color: "white", border: 'none', backgroundColor: 'black' }} >
                         <option value="sansSerif">Sans Serif</option>
                         <option value="serif">Serif</option>
                         <option value="mono">Mono</option>
@@ -111,16 +101,17 @@ export default function Home() {
             </div>
             {
                 loading == false ?
-                    < MagnifyingGlass
-                        visible={true}
-                        height="80"
-                        width="80"
-                        ariaLabel="MagnifyingGlass-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="MagnifyingGlass-wrapper"
-                        glassColor='#c0efff'
-                        color='#e15b64'
-                    />
+                    <div style={{textAlign: 'center', paddingTop:'5%'}}>
+                        <Vortex
+                            visible={true}
+                            height="150"
+                            width="150"
+                            ariaLabel="vortex-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="vortex-wrapper"
+                            colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+                        />
+                    </div>
                     :
 
                     <div className="row mt-5">
@@ -163,7 +154,7 @@ export default function Home() {
                                                     <h2>{post.meanings[0].partOfSpeech}</h2>
                                                 </div>
                                                 <div className="col pt-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "100%"  }} height="1" fill="none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "100%" }} height="1" fill="none">
                                                         <rect width="1200" height="1" fill="#E9E9E9" />
                                                     </svg>
                                                 </div>
@@ -235,7 +226,7 @@ export default function Home() {
                                                         <div key={ind}>
                                                             {post.definitions.map((post, ind) => {
                                                                 return (
-                                                                    <p key={ind}>{post.example}</p>
+                                                                    <p  style={{color:'gray'}} key={ind}>{post.example}</p>
                                                                 )
                                                             })}
                                                         </div>
@@ -243,6 +234,7 @@ export default function Home() {
                                                     )
                                                 })
                                             }
+                                            <hr />
                                             <span style={{ fontSize: '80%' }}>Source <a href={post.sourceUrls}>{post.sourceUrls}</a> </span>
                                         </div>
                                     )
