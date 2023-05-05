@@ -168,11 +168,6 @@ export default function Home() {
                                                     </svg>
                                                 </div>
                                             </div>
-                                            {/* <h2>{post.meanings[0].partOfSpeech}
-                                                <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
-                                                    <rect width="1200" height="1" fill="#E9E9E9" />
-                                                </svg>
-                                            </h2> */}
                                             <p style={{ color: 'gray' }}>Meaning</p>
                                             {
                                                 post.meanings.length == 1 ?
