@@ -89,7 +89,7 @@ export default function Home() {
             <div className="navbar mb-5 ">
                 <img src={img} className='img-fluid' alt="" />
                 <div style={{ textAlign: "end" }}>
-                    <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={{ border: "none" }} >
+                    <select onChange={(e) => setFontFamily(e.target.value)} onClick={() => changeFontFamily()} style={bodyColor == 'white' ? { border: 'none' } : { color: "white", border: 'none', backgroundColor: 'black' }} >
                         <option value="Sans Serif">Sans Serif</option>
                         <option value="Serif">Serif</option>
                         <option value="Mono">Mono</option>
@@ -102,9 +102,9 @@ export default function Home() {
             </div>
 
             <div className="search">
-                <input type="text" style={bodyColor == 'white' ? {backgroundColor:'white'} : {backgroundColor:'#1F1F1F', color:'white'}} className="form-control" value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={searchEnter} />
+                <input type="text" style={bodyColor == 'white' ? { backgroundColor: 'white' } : { backgroundColor: '#1F1F1F', color: 'white' }} className="form-control" value={word} onChange={(e) => setWord(e.target.value)} onKeyDown={searchEnter} />
                 <button onClick={search} >
-                    <svg xmlns="http://www.w3.org/2000/svg" style={bodyColor == 'white' ? {color:'white'} : {color:'black'}} width="16" height="16" fillRule="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" style={bodyColor == 'white' ? { color: 'white' } : { color: 'black' }} width="16" height="16" fillRule="currentColor" className="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                 </button>
@@ -158,11 +158,21 @@ export default function Home() {
                                                     }
                                                 </div>
                                             </div>
-                                            <h2>{post.meanings[0].partOfSpeech}
+                                            <div className="row">
+                                                <div className="col-2">
+                                                    <h2>{post.meanings[0].partOfSpeech}</h2>
+                                                </div>
+                                                <div className="col">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
+                                                        <rect width="1200" height="1" fill="#E9E9E9" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            {/* <h2>{post.meanings[0].partOfSpeech}
                                                 <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '2%', width: "90%" }} height="1" fill="none">
                                                     <rect width="1200" height="1" fill="#E9E9E9" />
                                                 </svg>
-                                            </h2>
+                                            </h2> */}
                                             <p style={{ color: 'gray' }}>Meaning</p>
                                             {
                                                 post.meanings.length == 1 ?
@@ -203,9 +213,22 @@ export default function Home() {
                                             }
                                             <p style={{ color: 'gray' }}>Meaning</p>
 
-                                            <ul>
-                                                {/* <li>{post.meanings[1].definitions[0].definition}</li> */}
-                                            </ul>
+                                            {
+                                                post.meanings.length > 1 ?
+
+
+                                                    <ul>
+                                                        {post.meanings[1].definitions.map(post => {
+                                                            return (
+                                                                <li>
+                                                                    {post.definition}
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                    :
+                                                    null
+                                            }
                                             {
                                                 post.meanings.map((post) => {
                                                     return (
